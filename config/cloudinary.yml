@@ -1,7 +1,7 @@
 development:
-  cloud_name: "kdxpjxmb"
-  api_key: "112175349849259"
-  api_secret: "hPEQb6yvZBbrutppZHk2fXpO-10"
+  cloud_name: "<%= ENV['CLOUDINARY_CLOUD_NAME'] %>"
+  api_key: "<%= ENV['CLOUDINARY_API_KEY'] %>"
+  api_secret: "<%= ENV['CLOUDINARY_API_SECRET'] %>"
   secure: true
 
 production:
