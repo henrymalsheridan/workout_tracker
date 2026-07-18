@@ -1,0 +1,16 @@
+<div class="nested-fields flex items-center gap-4 bg-white p-3 rounded border border-gray-200 shadow-sm mb-2">
+  
+  <%= f.hidden_field :_destroy %>
+  
+  <div class="flex items-center gap-2">
+    <%= f.label :reps, "Reps", class: "text-sm text-gray-600" %>
+    <%= f.number_field :reps, class: "w-20 border-gray-300 rounded p-1 border", min: 0 %>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <%= f.label :weight, "Weight (lbs)", class: "text-sm text-gray-600" %>
+    <%= f.number_field :weight, step: "0.5", class: "w-24 border-gray-300 rounded p-1 border", min: 0 %>
+  </div>
+
+  <button data-action="click->nested-form#remove" type="button" class="text-red-500 hover:text-red-700 text-sm font-bold ml-auto">Remove</button>
+</div>

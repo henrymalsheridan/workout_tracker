@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2026-07-16 15:31:47
+  notes: MyText
+  workout_type: one
+
+two:
+  date: 2026-07-16 15:31:47
+  notes: MyText
+  workout_type: two

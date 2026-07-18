@@ -1,0 +1,71 @@
+<div class="max-w-3xl mx-auto mt-10 mb-20">
+  <h1 class="text-3xl font-bold mb-6">Log a New Workout</h1>
+
+  <%= form_with(model: @workout, class: "bg-white p-6 rounded-lg shadow-md border border-gray-200") do |form| %>
+    
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <%= form.label :workout_type_id, "Workout Type", class: "block font-bold mb-2 text-gray-700" %>
+        <%= form.collection_select :workout_type_id, WorkoutType.all, :id, :name, { prompt: "Select a type..." }, { class: "w-full border-gray-300 rounded-md p-2 border bg-gray-50" } %>
+      </div>
+
+      <div>
+        <%= form.label :date, "Date", class: "block font-bold mb-2 text-gray-700" %>
+        <%= form.date_field :date, class: "w-full border-gray-300 rounded-md p-2 border bg-gray-50" %>
+      </div>
+    </div>
+
+    <div class="mb-8">
+      <%= form.label :notes, "Session Notes", class: "block font-bold mb-2 text-gray-700" %>
+      <%= form.text_area :notes, rows: 2, class: "w-full border-gray-300 rounded-md p-2 border bg-gray-50" %>
+    </div>
+
+    <div class="mb-8 mt-4">
+      <%= form.label :media, "Attach Photos or Videos", class: "block font-bold mb-2 text-gray-700" %>
+      <%= form.file_field :media, multiple: true, class: "w-full text-gray-700 p-2 border border-gray-300 rounded-md bg-gray-50" %>
+    </div>
+
+    <hr class="my-6 border-gray-300">
+    <h2 class="text-2xl font-bold mb-4 text-blue-800">Exercises</h2>
+
+    <%= form.fields_for :exercise_logs do |log_form| %>
+      <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
+        
+        <div class="mb-4">
+          <%= log_form.label :exercise_id, "Select Exercise", class: "block font-bold mb-2 text-gray-700" %>
+          <%= log_form.collection_select :exercise_id, Exercise.all, :id, :name, { prompt: "Select an exercise..." }, { class: "w-full border-gray-300 rounded-md p-2 border" } %>
+        </div>
+
+        
+        <div data-controller="nested-form">
+          <h3 class="font-bold text-gray-700 mb-2">Sets:</h3>
+          
+          <!-- This div is the target where the JS will inject new rows -->
+          <div data-nested-form-target="target">
+            <%= log_form.fields_for :workout_sets do |set_form| %>
+              <!-- Render the partial file we just created for existing sets -->
+              <%= render "workout_set_fields", f: set_form %>
+            <% end %>
+          </div>
+
+          <button data-action="click->nested-form#add" type="button" class="mt-2 text-sm text-blue-600 font-bold hover:underline">+ Add Another Set</button>
+
+          <!-- The Hidden Template the JS copies when you click "Add" -->
+          <template data-nested-form-target="template">
+            <%= log_form.fields_for :workout_sets, WorkoutSet.new, child_index: 'NEW_RECORD' do |set_form| %>
+              <%= render "workout_set_fields", f: set_form %>
+            <% end %>
+          </template>
+        </div>
+        
+
+      </div>
+    <% end %>
+
+    <div class="mt-8 flex justify-between items-center">
+      <%= link_to "Cancel", root_path, class: "text-gray-500 hover:text-gray-800 font-semibold" %>
+      <%= form.submit "Save Full Workout", class: "bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 cursor-pointer shadow-md transition" %>
+    </div>
+
+  <% end %>
+</div>

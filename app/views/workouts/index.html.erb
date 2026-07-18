@@ -1,0 +1,77 @@
+<div class="max-w-3xl mx-auto mt-10">
+  
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">My Workouts</h1>
+
+    
+    <!-- Log out button -->
+      <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "text-sm text-gray-500 hover:text-gray-800 underline" %>
+    </div>
+    
+   <% if current_user.admin? %>
+      <%= link_to "+ Log New Workout", new_workout_path, class: "bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 shadow-sm" %>
+    <% end %>
+  </div>
+
+  <!-- Data loop that iterates over workout array passed from controller-->
+  <% @workouts.each do |workout| %>
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-6 relative">
+      <% if current_user.admin? %>
+      <!-- ACTION BUTTONS -->
+        <div class="absolute top-6 right-6 flex gap-4 text-sm font-semibold">
+         <%= link_to "Edit", edit_workout_path(workout), class: "text-blue-600 hover:text-blue-800" %>
+        
+          <!-- Turbo method to intercept and turn into deltee request -->
+          <%= link_to "Delete", workout_path(workout), 
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this workout?" }, 
+                    class: "text-red-600 hover:text-red-800" %>
+      </div>
+      <% end %>
+
+      <!--  -->
+      <h2 class="text-xl font-semibold">
+        <%= workout.date.strftime("%B %d, %Y") %> 
+        <span class="text-gray-500 text-sm ml-2">(<%= workout.workout_type&.name %>)</span>
+      </h2>
+      
+      <p class="text-gray-700 mt-2 italic">"<%= workout.notes %>"</p>
+
+      <!-- Media attachments -->
+      <% if workout.media.attached? %>
+        <div class="mt-4 flex gap-4 overflow-x-auto py-2">
+          <% workout.media.each do |file| %>
+            
+            <!-- FIXED: Combined image/heic check, and applied the variant resize here -->
+            <% if file.content_type.start_with?("image/") || file.content_type.include?("heic") %>
+              <!-- Display Images (Converted and Resized) -->
+              <%= image_tag file.variant(resize_to_limit: [800, 800], format: :jpeg), class: "h-32 w-32 object-cover rounded shadow-sm border border-gray-200" %>
+            
+            <!-- FIXED: Restored standard video_tag for video formats -->
+            <% elsif file.content_type.start_with?("video/") %>
+              <!-- Display Videos -->
+              <%= video_tag url_for(file), controls: true, class: "h-32 w-auto rounded shadow-sm border border-gray-200" %>
+            
+            <% end %>
+            
+          <% end %>
+        </div>
+      <% end %>
+
+      <h3 class="font-bold mt-4 mb-2">Exercises Performed:</h3>
+      <ul class="list-disc pl-5">
+        <% workout.exercise_logs.each do |log| %>
+          <li class="mb-2">
+            <span class="font-semibold"><%= log.exercise.name %></span>
+            
+            <div class="text-sm text-gray-600 ml-4">
+              <% log.workout_sets.each do |set| %>
+                Set <%= set.set_number %>: <%= set.reps %> reps @ <%= set.weight %> lbs <br>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
+    </div>
+  <% end %>
+</div>

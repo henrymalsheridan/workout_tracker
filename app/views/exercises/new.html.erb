@@ -1,0 +1,17 @@
+<div class="max-w-md mx-auto mt-10">
+  <h1 class="text-2xl font-bold mb-6">Add a New Exercise</h1>
+
+  <%= form_with(model: @exercise, class: "bg-white p-6 rounded-lg shadow-md border border-gray-200") do |form| %>
+    
+    <div class="mb-6">
+      <%= form.label :name, "Exercise Name", class: "block font-bold mb-2 text-gray-700" %>
+      <%= form.text_field :name, class: "w-full border-gray-300 rounded-md p-2 border", placeholder: "e.g., Romanian Deadlift" %>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <%= link_to "Cancel", exercises_path, class: "text-gray-500 hover:text-gray-800" %>
+      <%= form.submit "Save Exercise", class: "bg-green-600 text-white font-bold py-2 px-4 rounded hover:bg-green-700 cursor-pointer" %>
+    </div>
+
+  <% end %>
+</div>
