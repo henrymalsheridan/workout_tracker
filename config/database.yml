@@ -14,7 +14,12 @@ test:
   database: workout_tracker_test
 
 production:
-  <<: *default
-  database: workout_tracker_production
-  username: workout_tracker
-  password: <%= ENV["WORKOUT_TRACKER_DATABASE_PASSWORD"] %>
+  primary: &primary
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+  cable:
+    <<: *primary
+  cache:
+    <<: *primary
+  queue:
+    <<: *primary
