@@ -7,3 +7,9 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+user = User.find_by(email: "malikhenry23@gmail.com")
+
+if user
+  user.update!(admin: true)
+  puts "Successfully promoted #{user.email} to Admin!"
+end
