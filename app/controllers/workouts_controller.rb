@@ -82,6 +82,7 @@ def require_admin
         :id,
         :exercise_id,
         :_destroy,
+        :duration,
         workout_sets_attributes: [:id, :set_number, :reps, :weight, :_destroy]
       ])
   end
