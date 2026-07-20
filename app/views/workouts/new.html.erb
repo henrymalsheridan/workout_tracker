@@ -28,11 +28,11 @@
     <hr class="my-6 border-gray-300">
     
     <!-- The Outer Controller For Exercises -->
-    <div data-controller="nested-form">
+    <div data-controller="nested-form" data-placeholder="NEW_RECORD">
       <h2 class="text-2xl font-bold mb-4 text-blue-800">Exercises</h2>
 
       <!-- Target area where existing and new exercises will load -->
-      <div data-controller="nested-form" data-placeholder="NEW_RECORD">
+      <div data-nested-form-target="target">
         <%= form.fields_for :exercise_logs do |log_form| %>
           <%= render "exercise_log_fields", f: log_form %>
         <% end %>
