@@ -4,20 +4,26 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["template", "target"]
 
+  // customizable value that defaults to "NEW_RECORD"
+  static values = { placeholder: { type: String, default: "NEW_RECORD" } }
+
   add(event) {
     event.preventDefault()
-    //Generate a unique ID using the current time
-    let time = new Date().getTime()
+    event.stopPropagation()
+    //Use placeholder string to build regex
+    const placeholder = this.element.dataset.placeholder || "NEW_RECORD"
+    const regex = new RegExp(this.placeholderValue, 'g')
     
-    //Replace 'NEW_RECORD' in with the unique ID
-    let content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, time)
     
+    //Replace string with the unique timestamp
+    const content = this.templateTarget.innerHTML.replace(regex, new Date().getTime())    
     // Inject HTML into the form
     this.targetTarget.insertAdjacentHTML('beforeend', content)
   }
 
   remove(event) {
     event.preventDefault()
+    event.stopPropagation()
     let wrapper = event.target.closest(".nested-fields")
     
     // Find the hidden destroy input and set it to 1
