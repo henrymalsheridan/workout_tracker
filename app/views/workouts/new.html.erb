@@ -27,18 +27,18 @@
 
     <hr class="my-6 border-gray-300">
     
-    <!-- The Outer Stimulus Controller (For Exercises) -->
+    <!-- The Outer Controller For Exercises -->
     <div data-controller="nested-form">
       <h2 class="text-2xl font-bold mb-4 text-blue-800">Exercises</h2>
 
       <!-- Target area where existing and new exercises will load -->
-      <div data-nested-form-target="target">
+      <div data-controller="nested-form" data-placeholder="NEW_RECORD">
         <%= form.fields_for :exercise_logs do |log_form| %>
           <%= render "exercise_log_fields", f: log_form %>
         <% end %>
       </div>
 
-      <!-- The Magic Button for Exercises -->
+      <!--  Button for Exercises -->
       <button data-action="click->nested-form#add" type="button" class="mb-8 text-blue-600 font-bold hover:underline text-lg">
         + Add Another Exercise
       </button>

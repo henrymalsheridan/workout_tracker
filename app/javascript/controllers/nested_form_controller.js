@@ -12,11 +12,14 @@ export default class extends Controller {
     event.stopPropagation()
     //Use placeholder string to build regex
     const placeholder = this.element.dataset.placeholder || "NEW_RECORD"
-    const regex = new RegExp(this.placeholderValue, 'g')
+    const time = new Date().getTime()
+    const regex = new RegExp(placeholder, 'g')
+
+    console.log(`Works! Replacing ${placeholder} with ID ${time}`)
     
     
     //Replace string with the unique timestamp
-    const content = this.templateTarget.innerHTML.replace(regex, new Date().getTime())    
+    const content = this.templateTarget.innerHTML.replace(regex, time)    
     // Inject HTML into the form
     this.targetTarget.insertAdjacentHTML('beforeend', content)
   }
