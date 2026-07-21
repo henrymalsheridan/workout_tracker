@@ -1,0 +1,37 @@
+<div class="max-w-4xl mx-auto mt-10 p-4">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-extrabold text-gray-900">Progress</h1>
+    <%= link_to "Back to Dashboard", root_path, class: "text-blue-600 font-semibold hover:underline" %>
+  </div>
+
+  <!-- Stimulus Controller Wrapper -->
+  <div data-controller="progress-chart" class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+    
+    <!--  Dropdown Menu -->
+    <div class="mb-8">
+      <label class="block text-sm font-bold mb-2 text-gray-600 uppercase tracking-wide">
+        Select Exercise to Chart
+      </label>
+      
+      <!-- 
+        data-progress-chart-target="select" allows JS to read the chosen exercise.
+        data-action="change->progress-chart#load" triggers the API fetch when changed.
+      -->
+      <select data-progress-chart-target="select" data-action="change->progress-chart#load" class="w-full md:w-1/2 border-gray-300 rounded-lg p-3 border bg-gray-50 focus:ring-blue-500 focus:border-blue-500 transition-colors shadow-sm cursor-pointer">
+        <option value="">Select an exercise...</option>
+        <%= options_from_collection_for_select(@exercises, :id, :name) %>
+      </select>
+    </div>
+
+    <!-- chart.js space -->
+    <div class="relative w-full h-80 bg-gray-50 rounded-lg border border-gray-100 p-4 flex items-center justify-center">
+      <canvas data-progress-chart-target="canvas" class="w-full h-full"></canvas>
+      
+      <!-- Empty State text -->
+      <p data-progress-chart-target="emptyState" class="absolute text-gray-400 font-medium">
+        Select an exercise to view your progress.
+      </p>
+    </div>
+
+  </div>
+</div>
