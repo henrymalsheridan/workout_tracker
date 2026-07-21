@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :workouts
   resources :exercises 
   resources :workout_types
+  get '/progress', to: 'progress#index', as: :progress
 # API Endpoints
   namespace :api do
     namespace :v1 do
